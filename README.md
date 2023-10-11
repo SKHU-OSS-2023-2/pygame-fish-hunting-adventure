@@ -1,16 +1,16 @@
-# pygame-fish-hunting-adventure
+# pygame-fish-hunting-adventure 🐧🎣
 물고기 사냥 대작전
 <img src="./img/intro_screen.png"/>
 
 
 ## Story
-_펭귄이 바다표범을 피해 물고기 모아서 우주로 떠나기 위한 대작전_ <br>
+**펭귄이 바다표범을 피해 물고기 모아서 우주로 떠나기 위한 대작전** <br>
 펭귄은 빙하에서 사는 게 심심해서 이제 우주로 떠나려 합니다. 그런데 우주선은 너무 비싸요. <br>
 물고기를 모아 펭귄을 도와주세요!
 
 
 ## Get Started
-```pip install pygame```
+```pip install pygame``` <br>
 ```python main.py```
 
 
