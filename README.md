@@ -16,20 +16,28 @@
 
 ## Screen
 ### Information
-* 장르 : 레이싱
+* 장르 : 액션, 장애물 뛰어넘기
 * 형태 : 가로형
 * 스테이지 : 0단계
 
 ### Character
 #### player : 펭귄
-<img src="./img/player1.png"/>
+<img src="./img/player1.png" width="100" height="100">
+
+#### stumbling block : 바다표범, 갈매기
+<p align="left">
+<img src="./img/seal.png" width="100" height="100">
+<img src="./img/seagull.gif" width="100" height="100">
+</p>
 
 #### score : 물고기
-<img src="./img/fish.png"/>
+<img src="./img/fish.png" width="100" height="100">
 
 #### key : 점프, 더블점프
-<img src="./img/arrow_key.png"/>
-
+<p align="left">
+<img src="./img/arrow_key.png" width="45%" height="100%">
+<img src="./img/spacebar_key.png" width="45%" height="100">
+</p>
 
 ## Team
 | [Daeyeol Sung](https://github.com/Daeye0l) |[Yuna kim](kkiwiio)|[Eunchong Kim](https://github.com/rltgjqmtkdydwk) |
