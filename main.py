@@ -33,9 +33,6 @@ def main():
     tree_x = MAX_WIDTH
     tree_y = MAX_HEIGHT - tree_height
 
-    # 공간 지정
-    dino_char = imgDino1.get_rect()
-    tree_char = imgTree.get_rect()
  
     while True:
         screen.fill((255, 255, 255))
@@ -69,22 +66,6 @@ def main():
         if tree_x <= 0:
             tree_x = MAX_WIDTH
 
-        # ADD: game_over: tree와 dino가 겹칠 시 게임 종료
-        dino_char.left = dino_x
-        dino_char.top = dino_y
-        tree_char.left = tree_x
-        tree_char.top = tree_y
-
-        if dino_char.colliderect(tree_char): 
-            #time.sleep(0.5)
-            # screen.fill(SEAGREEN)
-            # screen.blit(game_over, (280, 200))
-            # time.sleep(1)
-            # 게임 종료 화면
-            msg = game_font.render(game_result, True, (255, 255, 0)) # 노란색
-            msg_rect = msg.get_rect(center=(int(screen_width / 2), int(screen_height / 2)))
-            screen.blit(msg, msg_rect)
-            pygame.display.update()
     
         # draw tree
         screen.blit(imgTree, (tree_x, tree_y))
