@@ -22,19 +22,19 @@ _펭귄이 바다표범을 피해 물고기 모아서 우주로 떠나기 위한
 
 ### Character
 #### player : 펭귄
-<img src="./img/fish.png"/>
+<img src="./img/player1.png"/>
 
 #### score : 물고기
 <img src="./img/fish.png"/>
 
 #### key : 점프, 더블점프
-<img src="./img/fish.png"/>
+<img src="./img/arrow_key.png"/>
 
 
 ## Team
 | [Daeyeol Sung](https://github.com/Daeye0l) |[Yuna kim](kkiwiio)|[Eunchong Kim](https://github.com/rltgjqmtkdydwk) |
 |:----------------------------------------------:|:---:|:-----------------------------------------------:|
-|  <img src="https://github.com/kkiwiio.png">  |<img src="https://github.com/Daeye0l.png">| <img src="https://github.com/rltgjqmtkdydwk.png"> |
+|  <img src="https://github.com/Daeye0l.png">  |<img src="https://github.com/kkiwiio.png">| <img src="https://github.com/rltgjqmtkdydwk.png"> |
 |                    Frontend                     |Frontend|                    Frontend                     |
 
 #### Contact
