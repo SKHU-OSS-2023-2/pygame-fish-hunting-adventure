@@ -26,6 +26,10 @@ def main():
     leg_swap = True
     is_bottom = True
     is_go_up = False
+
+    # dino-space
+    dino_char = imgDino1.get_rect()
+    tree_char = imgTree.get_rect()
  
     # tree
     imgTree = pygame.image.load('img/tree.png')
@@ -66,6 +70,17 @@ def main():
         if tree_x <= 0:
             tree_x = MAX_WIDTH
 
+        # ADD: game_over: tree와 dino가 겹칠 시 게임 종료
+        dino_char.left = dino_x
+        dino_char.top = dino_y
+        tree_char.left = tree_x
+        tree_char.top = tree_y
+
+        if dino_char.colliderect(tree_char): 
+            time.sleep(0.5)
+            screen.fill(SEAGREEN)
+            screen.blit(game_over, (280, 200))
+            time.sleep(1)
     
         # draw tree
         screen.blit(imgTree, (tree_x, tree_y))
