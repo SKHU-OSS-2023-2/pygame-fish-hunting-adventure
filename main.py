@@ -26,10 +26,6 @@ def main():
     leg_swap = True
     is_bottom = True
     is_go_up = False
-
-    # dino-space
-    dino_char = imgDino1.get_rect()
-    tree_char = imgTree.get_rect()
  
     # tree
     imgTree = pygame.image.load('img/tree.png')
@@ -37,7 +33,10 @@ def main():
     tree_x = MAX_WIDTH
     tree_y = MAX_HEIGHT - tree_height
 
- 
+    # dino-space
+    dino_char = imgDino1.get_rect()
+    tree_char = imgTree.get_rect()
+
     while True:
         screen.fill((255, 255, 255))
  
