@@ -24,20 +24,29 @@
 #### player : 펭귄
 <img src="./img/player1.png" width="100" height="100">
 
+- <span style = "background-color: rgb(255, 255, 200)">점프하는</span> 펭귄
+
 #### stumbling block : 바다표범, 갈매기
 <p align="left">
 <img src="./img/seal.png" width="100" height="100">
 <img src="./img/seagull.gif" width="100" height="100">
 </p>
 
+- 바닥에 <span style = "background-color: rgb(255, 255, 200)">앉아있는</span> 바다표범
+- 펭귄을 향해 <span style = "background-color: rgb(255, 255, 200)">날아오는</span> 갈매기
+
 #### score : 물고기
 <img src="./img/fish.png" width="100" height="100">
+
+- 펭귄의 점수이다.
 
 #### key : 점프, 더블점프
 <p align="left">
 <img src="./img/arrow_key.png" width="45%" height="100%">
 <img src="./img/spacebar_key.png" width="45%" height="100">
 </p>
+
+- 스페이스바를 사용해 점프할 수 있다.
 
 ## Team
 | [Daeyeol Sung](https://github.com/Daeye0l) |[Yuna kim](kkiwiio)|[Eunchong Kim](https://github.com/rltgjqmtkdydwk) |
