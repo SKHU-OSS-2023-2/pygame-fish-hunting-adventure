@@ -62,8 +62,7 @@ Hello from the pygame community. https://www.pygame.org/contribute.html
 ### Information
 
 ### Character
-#### player : 펭귄
-<img src="./img/player1.png" width="100" height="100">
+<img src="./img/player.png" width="100" height="100">
 
 - <span style = "background-color: rgb(255, 255, 200)">점프하는</span> 펭귄
 
