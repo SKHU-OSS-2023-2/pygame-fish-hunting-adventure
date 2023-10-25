@@ -4,7 +4,7 @@
 본 프로젝트는 성공회대학교 오픈소스SW개발 과목의 게임 개발 프로젝트입니다. 
 
 
-## 📌스토리 소개
+## 📌게임 소개
 
 ### Title: 물고기 사냥 대작전-★
 **Information**
@@ -17,7 +17,7 @@
 펭귄이 포식자들을 피해 무사히 우주로 갈 수 있도록  도와주세요!
 
 
-## Get Started
+## 📌 게임시작 방법
 > recommend environment <br>
 [![Python version](https://img.shields.io/badge/python-3.17.16-brightgreen.svg)](https://www.python.org) [![Pygame version](https://img.shields.io/badge/pygame-2.5.2-yellow.svg)](http://pygame.org)
 
@@ -57,17 +57,18 @@ Hello from the pygame community. https://www.pygame.org/contribute.html
 [Done] exited with code=0 in 5.093 seconds
 ```
 
+## 📌 게임 규칙
+> 추후 추가할 예정
 
-## Screen
-### Information
 
-### Character
-#### player : 펭귄
-<img src="./img/player1.png" width="100" height="100">
+## 📌게임 캐릭터
+
+#### ▶player : 펭귄
+<img src="./img/peng2.png" width="100" height="100">
 
 - <span style = "background-color: rgb(255, 255, 200)">점프하는</span> 펭귄
 
-#### stumbling block : 바다표범, 갈매기
+#### ▶stumbling block : 바다표범, 갈매기
 <p align="left">
 <img src="./img/seal.png" width="100" height="100">
 <img src="./img/seagull.gif" width="100" height="100">
@@ -76,12 +77,12 @@ Hello from the pygame community. https://www.pygame.org/contribute.html
 - 바닥에 <span style = "background-color: rgb(255, 255, 200)">앉아있는</span> 바다표범
 - 펭귄을 향해 <span style = "background-color: rgb(255, 255, 200)">날아오는</span> 갈매기
 
-#### score : 물고기
+#### ▶score : 물고기
 <img src="./img/fish.png" width="100" height="100">
 
 - 펭귄의 점수이다.
 
-#### key : 점프, 더블점프
+#### ▶key : 점프, 더블점프
 <p align="left">
 <img src="./img/arrow_key.png" width="45%" height="100%">
 <img src="./img/spacebar_key.png" width="45%" height="100">
