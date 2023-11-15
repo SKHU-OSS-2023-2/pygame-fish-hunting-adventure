@@ -6,9 +6,10 @@ import sys
 # step3 : show tree, move tree
  
 pygame.init()
-pygame.display.set_caption('Jumping dino')
-MAX_WIDTH = 800
-MAX_HEIGHT = 400
+pygame.display.set_caption('Fish Hunting Adventure')
+# 1. 창 크기 지정
+MAX_WIDTH = 1000
+MAX_HEIGHT = 500
  
 def main():
     # set screen, fps
@@ -16,19 +17,28 @@ def main():
     fps = pygame.time.Clock()
 
     # dino
-    imgDino1 = pygame.image.load('img/dino1.png')
-    imgDino2 = pygame.image.load('img/dino2.png')
-    dino_height = imgDino1.get_size()[1]
-    dino_bottom = MAX_HEIGHT - dino_height
+    # 2. 펭귄 이미지 로드
+    imgDino1 = pygame.image.load('img/peng1.png')
+    imgDino2 = pygame.image.load('img/peng2.png')
+    imgDino3 = pygame.image.load('img/peng_jump.png')
+    # 3. 펭귄 이미지 스케일 조정
+    imgDino1 = pygame.transform.scale(imgDino1, (100, 100))
+    imgDino2 = pygame.transform.scale(imgDino2, (100, 100))
+    imgDino3 = pygame.transform.scale(imgDino3, (100, 100))
+    dino_height = imgDino1.get_size()[1] # 100
+    dino_bottom = MAX_HEIGHT - dino_height # 400
     dino_x = 50
     dino_y = dino_bottom
-    jump_top = 200
+    jump_top = 220
     leg_swap = True
     is_bottom = True
     is_go_up = False
  
     # tree
-    imgTree = pygame.image.load('img/tree.png')
+    # 4. 바다사자 이미지 로드
+    imgTree = pygame.image.load('img/seal.png')
+    # 5. 바다사자 이미지 스케일 조정
+    imgTree = pygame.transform.scale(imgTree, (80, 80))
     tree_height = imgTree.get_size()[1]
     tree_x = MAX_WIDTH
     tree_y = MAX_HEIGHT - tree_height
@@ -38,8 +48,6 @@ def main():
     tree_char = imgTree.get_rect()
 
     while True:
-        screen.fill((255, 255, 255))
- 
         # event check
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -80,21 +88,30 @@ def main():
             screen.fill(SEAGREEN)
             screen.blit(game_over, (280, 200))
             time.sleep(1)
-    
+
+        # 6. 배경 이미지 추가
+        background = pygame.image.load("./img/main_background.jpg")
+        background = pygame.transform.scale(background, (MAX_WIDTH, MAX_HEIGHT))
+        screen.blit(background, (0, 0))
+
         # draw tree
         screen.blit(imgTree, (tree_x, tree_y))
  
         # draw dino
-        if leg_swap:
-            screen.blit(imgDino1, (dino_x, dino_y))
-            leg_swap = False
-        else:
-            screen.blit(imgDino2, (dino_x, dino_y))
-            leg_swap = True
- 
+        # 7. 점프시 펭귄 점프 이미지로 변경
+        if is_go_up == True: # 점프인 경우
+            screen.blit(imgDino3, (dino_x, dino_y))
+        else : # 나머지 경우
+            if leg_swap:
+                screen.blit(imgDino1, (dino_x, dino_y))
+                leg_swap = False
+            else:
+                screen.blit(imgDino2, (dino_x, dino_y))
+                leg_swap = True
+        
         # update
         pygame.display.update()
-        fps.tick(30)
+        fps.tick(35)
  
  
 if __name__ == '__main__':
