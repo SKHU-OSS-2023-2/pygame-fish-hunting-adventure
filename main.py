@@ -1,5 +1,6 @@
 import pygame
 import sys
+import time
  
 # step1 : set screen, fps
 # step2 : show dino, jump dino
@@ -10,6 +11,16 @@ pygame.display.set_caption('Fish Hunting Adventure')
 # 1. 창 크기 지정
 MAX_WIDTH = 1000
 MAX_HEIGHT = 500
+
+SEAGREEN = (46, 139, 87)
+game_over_image = pygame.image.load('img/game_over.jpg')  #게임 오버 이미지 로드
+game_over_image = pygame.transform.scale(game_over_image, (MAX_WIDTH, MAX_HEIGHT))  # 이미지 크기 조정
+
+# ADD: 배경음악 로드
+pygame.mixer.music.load('sound/bgm.ogg')
+pygame.mixer.music.play(-1)
+
+miss_sound = pygame.mixer.Sound('sound/miss.ogg')
  
 def main():
     # set screen, fps
@@ -47,6 +58,8 @@ def main():
     dino_char = imgDino1.get_rect()
     tree_char = imgTree.get_rect()
 
+    game_over_flag = False
+
     while True:
         # event check
         for event in pygame.event.get():
@@ -54,7 +67,7 @@ def main():
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
-                if is_bottom:
+                if is_bottom and not game_over_flag:
                     is_go_up = True
                     is_bottom = False
  
@@ -83,11 +96,20 @@ def main():
         tree_char.left = tree_x
         tree_char.top = tree_y
 
-        if dino_char.colliderect(tree_char): 
+        if dino_char.colliderect(tree_char) and not game_over_flag: 
             time.sleep(0.5)
             screen.fill(SEAGREEN)
-            screen.blit(game_over, (280, 200))
-            time.sleep(1)
+            background = pygame.image.load("./img/main_background.jpg")
+            background = pygame.transform.scale(background, (MAX_WIDTH, MAX_HEIGHT))
+            screen.blit(background, (0, 0))
+            screen.blit(game_over_image, (0, 0))  # 게임 오버 이미지를 먼저 그림
+            pygame.display.update()
+            miss_sound.play()
+            time.sleep(2)
+            pygame.quit()
+            sys.exit()
+            game_over_flag = True
+    
 
         # 6. 배경 이미지 추가
         background = pygame.image.load("./img/main_background.jpg")
@@ -113,6 +135,5 @@ def main():
         pygame.display.update()
         fps.tick(35)
  
- 
-if __name__ == '__main__':
+ if __name__ == '__main__':
     main()
