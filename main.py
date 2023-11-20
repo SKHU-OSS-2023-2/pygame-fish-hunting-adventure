@@ -29,17 +29,17 @@ def main():
 
     # dino
     # 2. 펭귄 이미지 로드
-    imgDino1 = pygame.image.load('img/peng1.png')
-    imgDino2 = pygame.image.load('img/peng2.png')
-    imgDino3 = pygame.image.load('img/peng_jump.png')
+    imgPeng1 = pygame.image.load('img/peng1.png')
+    imgPeng2 = pygame.image.load('img/peng2.png')
+    imgPeng3 = pygame.image.load('img/peng_jump.png')
     # 3. 펭귄 이미지 스케일 조정
-    imgDino1 = pygame.transform.scale(imgDino1, (100, 100))
-    imgDino2 = pygame.transform.scale(imgDino2, (100, 100))
-    imgDino3 = pygame.transform.scale(imgDino3, (100, 100))
-    dino_height = imgDino1.get_size()[1] # 100
-    dino_bottom = MAX_HEIGHT - dino_height # 400
-    dino_x = 50
-    dino_y = dino_bottom
+    imgPeng1 = pygame.transform.scale(imgPeng1, (100, 100))
+    imgPeng2 = pygame.transform.scale(imgPeng2, (100, 100))
+    imgPeng3 = pygame.transform.scale(imgPeng3, (100, 100))
+    peng_height = imgPeng1.get_size()[1] # 100
+    peng_bottom = MAX_HEIGHT - peng_height # 400
+    peng_x = 50
+    peng_y = peng_bottom
     jump_top = 220
     leg_swap = True
     is_bottom = True
@@ -47,16 +47,16 @@ def main():
  
     # tree
     # 4. 바다사자 이미지 로드
-    imgTree = pygame.image.load('img/seal.png')
+    imgSeal = pygame.image.load('img/seal.png')
     # 5. 바다사자 이미지 스케일 조정
-    imgTree = pygame.transform.scale(imgTree, (80, 80))
-    tree_height = imgTree.get_size()[1]
-    tree_x = MAX_WIDTH
-    tree_y = MAX_HEIGHT - tree_height
+    imgSeal = pygame.transform.scale(imgSeal, (80, 80))
+    seal_height = imgSeal.get_size()[1]
+    seal_x = MAX_WIDTH
+    seal_y = MAX_HEIGHT - seal_height
 
     # dino-space
-    dino_char = imgDino1.get_rect()
-    tree_char = imgTree.get_rect()
+    peng_char = imgPeng1.get_rect()
+    seal_char = imgSeal.get_rect()
 
     game_over_flag = False
 
@@ -73,30 +73,30 @@ def main():
  
         # dino move
         if is_go_up:
-            dino_y -= 10.0
+            peng_y -= 10.0
         elif not is_go_up and not is_bottom:
-            dino_y += 10.0
+            peng_y += 10.0
  
         # dino top and bottom check
-        if is_go_up and dino_y <= jump_top:
+        if is_go_up and peng_y <= jump_top:
             is_go_up = False
  
-        if not is_bottom and dino_y >= dino_bottom:
+        if not is_bottom and peng_y >= peng_bottom:
             is_bottom = True
-            dino_y = dino_bottom
+            peng_y = peng_bottom
  
         # tree move
-        tree_x -= 12.0
-        if tree_x <= 0:
-            tree_x = MAX_WIDTH
+        seal_x -= 12.0
+        if seal_x <= 0:
+            seal_x = MAX_WIDTH
 
         # ADD: game_over: tree와 dino가 겹칠 시 게임 종료
-        dino_char.left = dino_x
-        dino_char.top = dino_y
-        tree_char.left = tree_x
-        tree_char.top = tree_y
+        peng_char.left = peng_x
+        peng_char.top = peng_y
+        seal_char.left = seal_x
+        seal_char.top = seal_y
 
-        if dino_char.colliderect(tree_char) and not game_over_flag: 
+        if peng_char.colliderect(seal_char): 
             time.sleep(0.5)
             screen.fill(SEAGREEN)
             background = pygame.image.load("./img/main_background.jpg")
@@ -117,23 +117,23 @@ def main():
         screen.blit(background, (0, 0))
 
         # draw tree
-        screen.blit(imgTree, (tree_x, tree_y))
+        screen.blit(imgSeal, (seal_x, seal_y))
  
         # draw dino
         # 7. 점프시 펭귄 점프 이미지로 변경
         if is_go_up == True: # 점프인 경우
-            screen.blit(imgDino3, (dino_x, dino_y))
+            screen.blit(imgPeng3, (peng_x, peng_y))
         else : # 나머지 경우
             if leg_swap:
-                screen.blit(imgDino1, (dino_x, dino_y))
+                screen.blit(imgPeng1, (peng_x, peng_y))
                 leg_swap = False
             else:
-                screen.blit(imgDino2, (dino_x, dino_y))
+                screen.blit(imgPeng2, (peng_x, peng_y))
                 leg_swap = True
         
         # update
         pygame.display.update()
         fps.tick(35)
  
- if __name__ == '__main__':
+if __name__ == '__main__':
     main()
