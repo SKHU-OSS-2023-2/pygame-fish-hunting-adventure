@@ -22,6 +22,9 @@ pygame.mixer.music.play(-1)
 
 miss_sound = pygame.mixer.Sound('sound/miss.ogg')
  
+def game_start():
+    start_screen = pygame.display
+
 def main():
     # set screen, fps
     screen = pygame.display.set_mode((MAX_WIDTH, MAX_HEIGHT))
@@ -135,5 +138,5 @@ def main():
         pygame.display.update()
         fps.tick(35)
  
- if __name__ == '__main__':
+if __name__ == '__main__':
     main()
