@@ -83,9 +83,11 @@ def main():
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
-                if is_bottom and not game_over_flag:
-                    is_go_up = True
-                    is_bottom = False
+                # 8. 키다운 이벤트 중 위쪽 방향키로 점프하도록 변경
+                if event.key == pygame.K_UP:
+                    if is_bottom and not game_over_flag:
+                        is_go_up = True
+                        is_bottom = False
  
         # dino move
         if is_go_up:
