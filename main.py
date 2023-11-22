@@ -18,10 +18,25 @@ game_over_image = pygame.transform.scale(game_over_image, (MAX_WIDTH, MAX_HEIGHT
 
 # ADD: 배경음악 로드
 pygame.mixer.music.load('sound/bgm.ogg')
-pygame.mixer.music.play(-1)
-
 miss_sound = pygame.mixer.Sound('sound/miss.ogg')
  
+def game_start(screen):
+    start_menu = pygame.image.load('img/start_menu.jpg')  # Load start menu image
+    start_menu = pygame.transform.scale(start_menu, (MAX_WIDTH, MAX_HEIGHT))
+    screen.blit(start_menu, (0, 0))
+    pygame.display.update()
+
+    waiting_for_key = True
+    while waiting_for_key:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_y:
+                    pygame.mixer.music.play(-1)
+                    waiting_for_key = False
+
 def main():
     # set screen, fps
     screen = pygame.display.set_mode((MAX_WIDTH, MAX_HEIGHT))
@@ -59,6 +74,7 @@ def main():
     seal_char = imgSeal.get_rect()
 
     game_over_flag = False
+    game_start(screen)
 
     while True:
         # event check
@@ -98,6 +114,7 @@ def main():
 
         if peng_char.colliderect(seal_char): 
             time.sleep(0.5)
+            pygame.mixer.music.stop()  # 배경음악 정지
             screen.fill(SEAGREEN)
             background = pygame.image.load("./img/main_background.jpg")
             background = pygame.transform.scale(background, (MAX_WIDTH, MAX_HEIGHT))
