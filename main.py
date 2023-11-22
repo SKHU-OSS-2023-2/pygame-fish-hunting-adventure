@@ -29,13 +29,13 @@ def main():
 
     # dino
     # 2. 펭귄 이미지 로드
-    imgPeng1 = pygame.image.load('img/peng1.png')
-    imgPeng2 = pygame.image.load('img/peng2.png')
-    imgPeng3 = pygame.image.load('img/peng_jump.png')
+    imgPeng1 = pygame.image.load('img/peng1_1.png') # 히트박스 크기 조절 이미지
+    imgPeng2 = pygame.image.load('img/peng2_1.png') # 히트박스 크기 조절 이미지
+    imgPeng3 = pygame.image.load('img/peng_jump_1.png') # 히트박스 크기 조절 이미지
     # 3. 펭귄 이미지 스케일 조정
-    imgPeng1 = pygame.transform.scale(imgPeng1, (100, 100))
-    imgPeng2 = pygame.transform.scale(imgPeng2, (100, 100))
-    imgPeng3 = pygame.transform.scale(imgPeng3, (100, 100))
+    imgPeng1 = pygame.transform.scale(imgPeng1, (90, 90))
+    imgPeng2 = pygame.transform.scale(imgPeng2, (90, 90))
+    imgPeng3 = pygame.transform.scale(imgPeng3, (90, 90))
     peng_height = imgPeng1.get_size()[1] # 100
     peng_bottom = MAX_HEIGHT - peng_height # 400
     peng_x = 50
@@ -47,7 +47,7 @@ def main():
  
     # tree
     # 4. 바다사자 이미지 로드
-    imgSeal = pygame.image.load('img/seal.png')
+    imgSeal = pygame.image.load('img/seal_1.png')
     # 5. 바다사자 이미지 스케일 조정
     imgSeal = pygame.transform.scale(imgSeal, (80, 80))
     seal_height = imgSeal.get_size()[1]
