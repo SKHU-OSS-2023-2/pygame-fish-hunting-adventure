@@ -89,13 +89,23 @@ def main():
                         is_go_up = True
                         is_bottom = False
  
-        # dino move
+        # peng move
+        # 8. 속도, 질량을 이용하여 점프에 적용
+        velocity = 3.8
+        mass = 2
         if is_go_up:
-            peng_y -= 10.0
+            if velocity > 0:
+                F = (0.5 * mass * (velocity * velocity))
+
+            peng_y -= round(F)
+            velocity -= 1
+        
         elif not is_go_up and not is_bottom:
-            peng_y += 10.0
+            F = -(0.5 * mass * (velocity * velocity))
+            peng_y -= round(F)
+            velocity -= 1
  
-        # dino top and bottom check
+        # peng top and bottom check
         if is_go_up and peng_y <= jump_top:
             is_go_up = False
  
