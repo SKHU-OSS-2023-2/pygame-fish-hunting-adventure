@@ -34,8 +34,25 @@ def game_start(screen):
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_y:
-                    pygame.mixer.music.play(-1)
                     waiting_for_key = False
+                    show_story_screen(screen)
+
+def show_story_screen(screen):
+    story_screen = pygame.image.load('img/story_screen.jpg')
+    story_screen = pygame.transform.scale(story_screen,(MAX_WIDTH,MAX_HEIGHT))
+    screen.blit(story_screen,(0,0))
+    pygame.display.update()
+    waiting_for_key = True
+    while waiting_for_key:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_s:
+                    pygame.mixer.music.play(-1)
+                    waiting_for_key = False 
+
 
 def main():
     # set screen, fps
@@ -69,11 +86,15 @@ def main():
     seal_x = MAX_WIDTH
     seal_y = MAX_HEIGHT - seal_height
 
+    imgSlide = pygame.image.load('img/peng_slide.png')
+    imgSlide = pygame.transform.scale(imgSlide, (90, 90))
+
     # dino-space
     peng_char = imgPeng1.get_rect()
     seal_char = imgSeal.get_rect()
 
     game_over_flag = False
+    is_sliding = False
     game_start(screen)
 
     while True:
@@ -88,6 +109,11 @@ def main():
                     if is_bottom and not game_over_flag:
                         is_go_up = True
                         is_bottom = False
+                elif event.key == pygame.K_DOWN:
+                    is_sliding = True
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_DOWN:
+                    is_sliding = False
  
         # peng move
         # 8. 속도, 질량을 이용하여 점프에 적용
@@ -150,15 +176,18 @@ def main():
  
         # draw dino
         # 7. 점프시 펭귄 점프 이미지로 변경
-        if is_go_up == True: # 점프인 경우
-            screen.blit(imgPeng3, (peng_x, peng_y))
-        else : # 나머지 경우
-            if leg_swap:
-                screen.blit(imgPeng1, (peng_x, peng_y))
-                leg_swap = False
-            else:
-                screen.blit(imgPeng2, (peng_x, peng_y))
-                leg_swap = True
+        if is_sliding:
+            screen.blit(imgSlide, (peng_x, peng_y))
+        else:
+            if is_go_up == True: # 점프인 경우
+                screen.blit(imgPeng3, (peng_x, peng_y))
+            else : # 나머지 경우
+                if leg_swap:
+                    screen.blit(imgPeng1, (peng_x, peng_y))
+                    leg_swap = False
+                else:
+                    screen.blit(imgPeng2, (peng_x, peng_y))
+                    leg_swap = True
         
         # update
         pygame.display.update()
