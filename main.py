@@ -55,19 +55,23 @@ def main():
     peng_bottom = MAX_HEIGHT - peng_height # 400
     peng_x = 50
     peng_y = peng_bottom
-    jump_top = 220
+    jump_top = 215
     leg_swap = True
     is_bottom = True
     is_go_up = False
  
     # tree
-    # 4. 바다사자 이미지 로드
-    imgSeal = pygame.image.load('img/seal_1.png')
-    # 5. 바다사자 이미지 스케일 조정
-    imgSeal = pygame.transform.scale(imgSeal, (80, 80))
+    imgSeal = pygame.image.load('img/seal_1.png') # 바다사자 이미지 로드
+    imgSeagull = pygame.image.load('img/seagull_1.png') # 갈매기 이미지 로드
+    imgSeal = pygame.transform.scale(imgSeal, (80, 80)) # 바다사자 이미지 스케일 조정
+    imgSeagull = pygame.transform.scale(imgSeagull, (70, 40)) # 갈매기 이미지 스케일 조정
     seal_height = imgSeal.get_size()[1]
+    seagull_height = imgSeagull.get_size()[1]
     seal_x = MAX_WIDTH
     seal_y = MAX_HEIGHT - seal_height
+    seagull_x = MAX_WIDTH
+    seagull_y = MAX_HEIGHT - seagull_height - 60
+    
 
     # dino-space
     peng_char = imgPeng1.get_rect()
@@ -113,10 +117,15 @@ def main():
             is_bottom = True
             peng_y = peng_bottom
  
-        # tree move
+        # seal move
         seal_x -= 12.0
         if seal_x <= 0:
             seal_x = MAX_WIDTH
+
+        # seal move
+        seagull_x -= 12.0
+        if seagull_x <= 0:
+            seagull_x = MAX_WIDTH
 
         # ADD: game_over: tree와 dino가 겹칠 시 게임 종료
         peng_char.left = peng_x
@@ -147,6 +156,7 @@ def main():
 
         # draw tree
         screen.blit(imgSeal, (seal_x, seal_y))
+        screen.blit(imgSeagull, (seagull_x, seagull_y))
  
         # draw dino
         # 7. 점프시 펭귄 점프 이미지로 변경
@@ -162,7 +172,7 @@ def main():
         
         # update
         pygame.display.update()
-        fps.tick(35)
+        fps.tick(40)
  
 if __name__ == '__main__':
     main()
