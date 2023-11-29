@@ -1,6 +1,7 @@
 import pygame
 import sys
 import time
+import random
  
 # step1 : set screen, fps
 # step2 : show dino, jump dino
@@ -73,12 +74,25 @@ def main():
     seagull_y = MAX_HEIGHT - seagull_height - 60
     
 
+    # 점수 : fish 이미지 로드
+    imgFish = pygame.image.load('img/fish.png')
+    imgFish = pygame.transform.scale(imgFish, (100, 100))  # 물고기 이미지 크기 조정
+    fish_x = MAX_WIDTH
+    fish_y = random.randint(50, MAX_HEIGHT - 7)  # 물고기의 초기 위치를 랜덤하게 설정
+    score = 0       # 점수 초기화
+
     # dino-space
     peng_char = imgPeng1.get_rect()
     seal_char = imgSeal.get_rect()
+    fish_char = imgFish.get_rect()
 
     game_over_flag = False
     game_start(screen)
+
+
+
+
+
 
     while True:
         # event check
@@ -169,6 +183,32 @@ def main():
             else:
                 screen.blit(imgPeng2, (peng_x, peng_y))
                 leg_swap = True
+
+        
+
+        # fish move
+        fish_x -= 10.0
+        if fish_x < -50:  # 물고기가 화면 왼쪽 끝에 도달하면
+            fish_x = MAX_WIDTH
+            fish_y = random.randint(50, MAX_HEIGHT - 7)  # 물고기 위치 재설정
+
+        # ADD: fish와 peng_char가 겹칠 시 fish 재배치 및 score 증가
+        fish_char.left = fish_x
+        fish_char.top = fish_y
+        if peng_char.colliderect(fish_char):
+            fish_x = MAX_WIDTH
+            fish_y = random.randint(50, MAX_HEIGHT - 7)
+            score += 1  # 점수 증가
+
+        # draw fish
+        screen.blit(imgFish, (fish_x, fish_y))
+
+        # Display score
+        font = pygame.font.SysFont(None, 36)
+        score_text = font.render(f'Score: {score}', True, (255, 255, 255))      # 점수 텍스트
+        screen.blit(score_text, (10, 10))       # 화면에 점수 표시
+
+
         
         # update
         pygame.display.update()
