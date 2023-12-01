@@ -15,10 +15,9 @@ DUCKING = pygame.image.load("./img/peng_duck.png")
 
 SEAL = pygame.image.load("./img/seal.png")
 SEAGULL = pygame.image.load("./img/seagull.png")
+FISH = pygame.image.load("./img/fish.png")
 
 BG = pygame.image.load("./img/main_background.png")
-BGDARK = [pygame.image.load("./img/background/darker_ver1.png"),
-        pygame.image.load("./img/background/darker_ver2.png")]
 
 class Peng:
     X_POS = 80
@@ -122,8 +121,16 @@ class SeaGull(Obstacle):
         SCREEN.blit(self.image, self.rect)
         self.index += 1
 
+class Fish(Obstacle):
+    def __init__(self, image):
+        super().__init__(image)
+        y_pos_fish = [170, 350]
+        self.rect.y = random.choice(y_pos_fish)
+        self.index = 0
+
+
 def main():
-    global game_speed, x_pos_bg, y_pos_bg, points, obstacles, current_bg
+    global game_speed, x_pos_bg, y_pos_bg, points, obstacles
     run = True
     clock = pygame.time.Clock()
     player = Peng()
@@ -131,10 +138,10 @@ def main():
     x_pos_bg = 0
     y_pos_bg = 0
     points = 0
+    scores = 0
     font = pygame.font.Font('freesansbold.ttf', 20)
     obstacles = []
     death_count = 0
-    current_bg = 0  # 현재 배경 추적 변수
 
     def score():
         global points, game_speed
@@ -142,33 +149,24 @@ def main():
         if points % 100 == 0:
             game_speed += 1
 
-        text = font.render("Points: " + str(points), True, (0, 0, 0))
-        textRect = text.get_rect()
-        textRect.center = (1000, 40)
-        SCREEN.blit(text, textRect)
+        textPoint = font.render("Points: " + str(points), True, (0, 0, 0))
+        textScore = font.render("Score: " + str(scores), True, (0, 0, 0))
+        textPointRect = textPoint.get_rect()
+        textScoreRect = textScore.get_rect()
+        textPointRect.center = (1000, 40)
+        textScoreRect.center = (1000, 80)
+        SCREEN.blit(textPoint, textPointRect)
+        SCREEN.blit(textScore, textScoreRect)
 
     def background():
-        global x_pos_bg, y_pos_bg, current_bg
+        global x_pos_bg, y_pos_bg
         image_width = BG.get_width()
-
-        # 현재 화면 초기화
-        if current_bg == 0:
-            SCREEN.blit(BG, (x_pos_bg, y_pos_bg))
-            SCREEN.blit(BG, (image_width + x_pos_bg, y_pos_bg))
-        else:
-            darkbg = BGDARK[current_bg - 1]
-            SCREEN.blit(darkbg, (x_pos_bg, y_pos_bg))
-            SCREEN.blit(darkbg, (image_width + x_pos_bg, y_pos_bg))
-        
-        # 화면 연속적으로 그려주기
+        SCREEN.blit(BG, (x_pos_bg, y_pos_bg))
+        SCREEN.blit(BG, (image_width + x_pos_bg, y_pos_bg))
         if x_pos_bg <= -image_width:
+            SCREEN.blit(BG, (image_width + x_pos_bg, y_pos_bg))
             x_pos_bg = 0
         x_pos_bg -= game_speed - 17
-
-        # 300점마다 화면 전환
-        global points
-        if points % 300 == 0 and points != 0:
-            current_bg = (current_bg + 1) % (len(BGDARK) + 1)
 
     while run:
         for event in pygame.event.get():
@@ -184,18 +182,24 @@ def main():
         player.update(userInput)
 
         if len(obstacles) == 0:
-            if random.randint(0, 1) == 0:
+            if random.randint(0, 30) <= 9:
                 obstacles.append(Seal(SEAL))
-            elif random.randint(0, 1) == 1:
+            elif random.randint(0, 30) <= 14:
                 obstacles.append(SeaGull(SEAGULL))
+            elif random.randint(0, 30) <= 29:
+                obstacles.append(Fish(FISH))
 
         for obstacle in obstacles:
             obstacle.draw(SCREEN)
             obstacle.update()
             if player.peng_rect.colliderect(obstacle.rect):
-                pygame.time.delay(1000)
-                death_count += 1
-                menu(death_count)
+                if(obstacle.image == FISH):
+                    obstacles.remove(obstacle)
+                    scores += 1
+                else:
+                    pygame.time.delay(1000)
+                    death_count += 1
+                    menu(death_count)
 
         score()
 
