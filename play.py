@@ -18,6 +18,8 @@ SEAGULL = pygame.image.load("./img/seagull.png")
 FISH = pygame.image.load("./img/fish.png")
 
 BG = pygame.image.load("./img/main_background.png")
+BGDARK = [pygame.image.load("./img/background/darker_ver1.png"),
+        pygame.image.load("./img/background/darker_ver2.png")]
 
 class Peng:
     X_POS = 80
@@ -130,7 +132,7 @@ class Fish(Obstacle):
 
 
 def main():
-    global game_speed, x_pos_bg, y_pos_bg, points, obstacles
+    global game_speed, x_pos_bg, y_pos_bg, points, obstacles, current_bg
     run = True
     clock = pygame.time.Clock()
     player = Peng()
@@ -142,6 +144,7 @@ def main():
     font = pygame.font.Font('freesansbold.ttf', 20)
     obstacles = []
     death_count = 0
+    current_bg = 0  # 현재 배경 추적 변수
 
     def score():
         global points, game_speed
@@ -159,14 +162,27 @@ def main():
         SCREEN.blit(textScore, textScoreRect)
 
     def background():
-        global x_pos_bg, y_pos_bg
+        global x_pos_bg, y_pos_bg, current_bg
         image_width = BG.get_width()
-        SCREEN.blit(BG, (x_pos_bg, y_pos_bg))
-        SCREEN.blit(BG, (image_width + x_pos_bg, y_pos_bg))
-        if x_pos_bg <= -image_width:
+
+        # 현재 화면 초기화
+        if current_bg == 0:
+            SCREEN.blit(BG, (x_pos_bg, y_pos_bg))
             SCREEN.blit(BG, (image_width + x_pos_bg, y_pos_bg))
+        else:
+            darkbg = BGDARK[current_bg - 1]
+            SCREEN.blit(darkbg, (x_pos_bg, y_pos_bg))
+            SCREEN.blit(darkbg, (image_width + x_pos_bg, y_pos_bg))
+        
+        # 화면 연속적으로 그려주기
+        if x_pos_bg <= -image_width:
             x_pos_bg = 0
         x_pos_bg -= game_speed - 17
+
+        # 300점마다 화면 전환
+        global points
+        if points % 300 == 0 and points != 0:
+            current_bg = (current_bg + 1) % (len(BGDARK) + 1)
 
     while run:
         for event in pygame.event.get():
