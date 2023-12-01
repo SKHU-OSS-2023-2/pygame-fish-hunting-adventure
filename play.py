@@ -144,13 +144,13 @@ def main():
     font = pygame.font.Font('freesansbold.ttf', 20)
     obstacles = []
     death_count = 0
-    current_bg = 0  # 현재 배경 추적 변수
+    current_bg = 0
 
     def score():
         global points, game_speed
         points += 1
-        if points % 100 == 0:
-            game_speed += 1
+        if points % 200 == 0:
+            game_speed += 0.5
 
         textPoint = font.render("Points: " + str(points), True, (0, 0, 0))
         textScore = font.render("Score: " + str(scores), True, (0, 0, 0))
@@ -165,7 +165,6 @@ def main():
         global x_pos_bg, y_pos_bg, current_bg
         image_width = BG.get_width()
 
-        # 현재 화면 초기화
         if current_bg == 0:
             SCREEN.blit(BG, (x_pos_bg, y_pos_bg))
             SCREEN.blit(BG, (image_width + x_pos_bg, y_pos_bg))
@@ -174,12 +173,10 @@ def main():
             SCREEN.blit(darkbg, (x_pos_bg, y_pos_bg))
             SCREEN.blit(darkbg, (image_width + x_pos_bg, y_pos_bg))
         
-        # 화면 연속적으로 그려주기
         if x_pos_bg <= -image_width:
             x_pos_bg = 0
         x_pos_bg -= game_speed - 17
 
-        # 300점마다 화면 전환
         global points
         if points % 300 == 0 and points != 0:
             current_bg = (current_bg + 1) % (len(BGDARK) + 1)
