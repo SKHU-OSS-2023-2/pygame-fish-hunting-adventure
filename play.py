@@ -7,6 +7,9 @@ SCREEN_WIDTH = 1100
 SCREEN_HEIGHT = 500
 
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+STORY_SCREEN = pygame.image.load('img/story_screen.jpg')
+START_BACKGROUND = pygame.image.load("./img/start_menu.jpg")
+DEATH_SCREEN = pygame.image.load("./img/game_over.jpg")
 
 RUNNING = [pygame.image.load("./img/peng_run_1.png"),
            pygame.image.load("./img/peng_run_2.png")]
@@ -20,6 +23,9 @@ FISH = pygame.image.load("./img/fish.png")
 BG = pygame.image.load("./img/main_background.png")
 BGDARK = [pygame.image.load("./img/background/darker_ver1.png"),
         pygame.image.load("./img/background/darker_ver2.png")]
+START_SOUND = pygame.mixer.Sound('sound/bgm.ogg')
+MISS_SOUND = pygame.mixer.Sound('sound/miss.ogg')
+COIN_SOUND = pygame.mixer.Sound('sound/candy.ogg')
 
 class Peng:
     X_POS = 80
@@ -145,6 +151,9 @@ def main():
     obstacles = []
     death_count = 0
     current_bg = 0  # 현재 배경 추적 변수
+    pygame.mixer.music.load('sound/bgm.ogg')
+    pygame.mixer.music.play(-1)
+    # START_SOUND.play(-1)
 
     def score():
         global points, game_speed
@@ -212,7 +221,9 @@ def main():
                 if(obstacle.image == FISH):
                     obstacles.remove(obstacle)
                     scores += 1
+                    COIN_SOUND.play()
                 else:
+                    pygame.mixer.music.stop()
                     pygame.time.delay(1000)
                     death_count += 1
                     menu(death_count)
@@ -221,33 +232,49 @@ def main():
 
         clock.tick(30)
         pygame.display.update()
+    pygame.mixer.music.stop()
 
 
 def menu(death_count):
     global points
-    run = True
-    while run:
-        SCREEN.fill((255, 255, 255))
-        font = pygame.font.Font('freesansbold.ttf', 30)
-
-        if death_count == 0:
-            text = font.render("Press any Key to Start", True, (0, 0, 0))
-        elif death_count > 0:
-            text = font.render("Press any Key to Restart", True, (0, 0, 0))
-            score = font.render("Your Score: " + str(points), True, (0, 0, 0))
-            scoreRect = score.get_rect()
-            scoreRect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 50)
-            SCREEN.blit(score, scoreRect)
-        textRect = text.get_rect()
-        textRect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
-        SCREEN.blit(text, textRect)
-        SCREEN.blit(RUNNING[0], (SCREEN_WIDTH // 2 - 20, SCREEN_HEIGHT // 2 - 140))
+    run = True 
+    if death_count > 0:
+        # START_SOUND.stop()
+        MISS_SOUND.play()
+        SCREEN.blit(DEATH_SCREEN,(0,0)) 
         pygame.display.update()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-            if event.type == pygame.KEYDOWN:
-                main()
-
+        waiting_for_key = True
+        while waiting_for_key:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_r:
+                        # r 키를 누르면 처음 메인 화면으로 돌아감
+                        waiting_for_key = False
+                        main()
+    elif death_count == 0:
+        while run:
+            SCREEN.blit(START_BACKGROUND,(0,0))
+            pygame.display.update()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    run = False
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_y:
+                        SCREEN.blit(STORY_SCREEN,(0,0))
+                        pygame.display.update()
+                        waiting_for_key = True
+                        while waiting_for_key:
+                                for event in pygame.event.get():
+                                    if event.type == pygame.QUIT:
+                                        pygame.quit()
+                                        sys.exit()
+                                    elif event.type == pygame.KEYDOWN:
+                                        if event.key == pygame.K_s:
+                                            main()
+            
 
 menu(death_count=0)
