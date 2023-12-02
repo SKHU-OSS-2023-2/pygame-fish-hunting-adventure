@@ -17,7 +17,8 @@ JUMPING = pygame.image.load("./img/peng_jump.png")
 DUCKING = pygame.image.load("./img/peng_duck.png")
 
 SEAL = pygame.image.load("./img/seal.png")
-SEAGULL = pygame.image.load("./img/seagull.png")
+SEAGULL = [pygame.image.load("./img/seagull_up.png"), 
+        pygame.image.load("./img/seagull_down.png")]
 FISH = pygame.image.load("./img/fish.png")
 
 BG = pygame.image.load("./img/main_background.png")
@@ -119,14 +120,17 @@ class Seal(Obstacle):
 
 class SeaGull(Obstacle):
     def __init__(self, image):
-        super().__init__(image)
+        super().__init__(image[0])
+        self.image_list = image
         self.rect.y = 280
         self.index = 0
     
     def draw(self, SCREEN):
         if self.index >= 9:
             self.index = 0
-        SCREEN.blit(self.image, self.rect)
+        flapping = self.image_list[self.index // 5]
+        flapping_rect = flapping.get_rect(topleft=(self.rect.x, self.rect.y))
+        SCREEN.blit(flapping, flapping_rect)
         self.index += 1
 
 class Fish(Obstacle):
