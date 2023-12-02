@@ -1,6 +1,7 @@
 import pygame
 import sys
 import time
+import random
  
 # step1 : set screen, fps
 # step2 : show dino, jump dino
@@ -34,25 +35,8 @@ def game_start(screen):
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_y:
-                    waiting_for_key = False
-                    show_story_screen(screen)
-
-def show_story_screen(screen):
-    story_screen = pygame.image.load('img/story_screen.jpg')
-    story_screen = pygame.transform.scale(story_screen,(MAX_WIDTH,MAX_HEIGHT))
-    screen.blit(story_screen,(0,0))
-    pygame.display.update()
-    waiting_for_key = True
-    while waiting_for_key:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_s:
                     pygame.mixer.music.play(-1)
-                    waiting_for_key = False 
-
+                    waiting_for_key = False
 
 def main():
     # set screen, fps
@@ -72,30 +56,43 @@ def main():
     peng_bottom = MAX_HEIGHT - peng_height # 400
     peng_x = 50
     peng_y = peng_bottom
-    jump_top = 220
+    jump_top = 215
     leg_swap = True
     is_bottom = True
     is_go_up = False
  
     # tree
-    # 4. 바다사자 이미지 로드
-    imgSeal = pygame.image.load('img/seal_1.png')
-    # 5. 바다사자 이미지 스케일 조정
-    imgSeal = pygame.transform.scale(imgSeal, (80, 80))
+    imgSeal = pygame.image.load('img/seal_1.png') # 바다사자 이미지 로드
+    imgSeagull = pygame.image.load('img/seagull_1.png') # 갈매기 이미지 로드
+    imgSeal = pygame.transform.scale(imgSeal, (80, 80)) # 바다사자 이미지 스케일 조정
+    imgSeagull = pygame.transform.scale(imgSeagull, (70, 40)) # 갈매기 이미지 스케일 조정
     seal_height = imgSeal.get_size()[1]
+    seagull_height = imgSeagull.get_size()[1]
     seal_x = MAX_WIDTH
     seal_y = MAX_HEIGHT - seal_height
+    seagull_x = MAX_WIDTH
+    seagull_y = MAX_HEIGHT - seagull_height - 60
+    
 
-    imgSlide = pygame.image.load('img/peng_slide.png')
-    imgSlide = pygame.transform.scale(imgSlide, (90, 90))
+    # 점수 : fish 이미지 로드
+    imgFish = pygame.image.load('img/fish.png')
+    imgFish = pygame.transform.scale(imgFish, (100, 100))  # 물고기 이미지 크기 조정
+    fish_x = MAX_WIDTH
+    fish_y = random.randint(50, MAX_HEIGHT - 7)  # 물고기의 초기 위치를 랜덤하게 설정
+    score = 0       # 점수 초기화
 
     # dino-space
     peng_char = imgPeng1.get_rect()
     seal_char = imgSeal.get_rect()
+    fish_char = imgFish.get_rect()
 
     game_over_flag = False
-    is_sliding = False
     game_start(screen)
+
+
+
+
+
 
     while True:
         # event check
@@ -109,11 +106,6 @@ def main():
                     if is_bottom and not game_over_flag:
                         is_go_up = True
                         is_bottom = False
-                elif event.key == pygame.K_DOWN:
-                    is_sliding = True
-            elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_DOWN:
-                    is_sliding = False
  
         # peng move
         # 8. 속도, 질량을 이용하여 점프에 적용
@@ -139,10 +131,15 @@ def main():
             is_bottom = True
             peng_y = peng_bottom
  
-        # tree move
+        # seal move
         seal_x -= 12.0
         if seal_x <= 0:
             seal_x = MAX_WIDTH
+
+        # seal move
+        seagull_x -= 12.0
+        if seagull_x <= 0:
+            seagull_x = MAX_WIDTH
 
         # ADD: game_over: tree와 dino가 겹칠 시 게임 종료
         peng_char.left = peng_x
@@ -173,25 +170,49 @@ def main():
 
         # draw tree
         screen.blit(imgSeal, (seal_x, seal_y))
+        screen.blit(imgSeagull, (seagull_x, seagull_y))
  
         # draw dino
         # 7. 점프시 펭귄 점프 이미지로 변경
-        if is_sliding:
-            screen.blit(imgSlide, (peng_x, peng_y))
-        else:
-            if is_go_up == True: # 점프인 경우
-                screen.blit(imgPeng3, (peng_x, peng_y))
-            else : # 나머지 경우
-                if leg_swap:
-                    screen.blit(imgPeng1, (peng_x, peng_y))
-                    leg_swap = False
-                else:
-                    screen.blit(imgPeng2, (peng_x, peng_y))
-                    leg_swap = True
+        if is_go_up == True: # 점프인 경우
+            screen.blit(imgPeng3, (peng_x, peng_y))
+        else : # 나머지 경우
+            if leg_swap:
+                screen.blit(imgPeng1, (peng_x, peng_y))
+                leg_swap = False
+            else:
+                screen.blit(imgPeng2, (peng_x, peng_y))
+                leg_swap = True
+
+        
+
+        # fish move
+        fish_x -= 10.0
+        if fish_x < -50:  # 물고기가 화면 왼쪽 끝에 도달하면
+            fish_x = MAX_WIDTH
+            fish_y = random.randint(50, MAX_HEIGHT - 7)  # 물고기 위치 재설정
+
+        # ADD: fish와 peng_char가 겹칠 시 fish 재배치 및 score 증가
+        fish_char.left = fish_x
+        fish_char.top = fish_y
+        if peng_char.colliderect(fish_char):
+            fish_x = MAX_WIDTH
+            fish_y = random.randint(50, MAX_HEIGHT - 7)
+            score += 1  # 점수 증가
+
+        # draw fish
+        screen.blit(imgFish, (fish_x, fish_y))
+
+        # Display score
+        font = pygame.font.SysFont(None, 36)
+        score_text = font.render(f'Score: {score}', True, (255, 255, 255))      # 점수 텍스트
+        screen.blit(score_text, (10, 10))       # 화면에 점수 표시
+
+
         
         # update
         pygame.display.update()
-        fps.tick(35)
+        fps.tick(40)
  
 if __name__ == '__main__':
     main()
