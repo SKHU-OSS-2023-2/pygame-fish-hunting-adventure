@@ -23,7 +23,7 @@ class Peng:
     X_POS = 80
     Y_POS = 350
     Y_POS_DUCK = 370
-    JUMP_VEL = 8.5
+    JUMP_VEL = 8
 
     def __init__(self):
         self.duck_img = DUCKING
@@ -112,7 +112,7 @@ class Seal(Obstacle):
 class SeaGull(Obstacle):
     def __init__(self, image):
         super().__init__(image)
-        self.rect.y = 310
+        self.rect.y = 280
         self.index = 0
     
     def draw(self, SCREEN):
