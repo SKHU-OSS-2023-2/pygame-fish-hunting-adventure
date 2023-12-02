@@ -158,7 +158,7 @@ def main():
     def score():
         global points, game_speed
         points += 1
-        if points % 200 == 0:
+        if points % 150 == 0:
             game_speed += 0.5
 
         textPoint = font.render("Points: " + str(points), True, (0, 0, 0))
