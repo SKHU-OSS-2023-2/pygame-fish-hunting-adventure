@@ -58,20 +58,25 @@ Hello from the pygame community. https://www.pygame.org/contribute.html
 ```
 
 ## 📌 게임 규칙
-> 추후 추가할 예정
+- 점프: ↑ (위의 방향키)
+- 슬라이드: ↓ (아래 방향키)
+
+물고기를 먹을시 점수가 1씩 오릅니다. 
+
+**게임오버: 장애물인 바다표범과 갈매기와 부딪히면 게임오버**
 
 
 ## 📌게임 캐릭터
 
 #### ▶player : 펭귄
-<img src="./img/peng2.png" width="100" height="100">
+<img src="./img/peng_jump.png" width="100" height="100">
 
 - <span style = "background-color: rgb(255, 255, 200)">점프하는</span> 펭귄
 
 #### ▶stumbling block : 바다표범, 갈매기
 <p align="left">
 <img src="./img/seal.png" width="100" height="100">
-<img src="./img/seagull.gif" width="100" height="100">
+<img src="./img/seagull_up.png" width="100" height="100">
 </p>
 
 - 바닥에 <span style = "background-color: rgb(255, 255, 200)">앉아있는</span> 바다표범
@@ -82,11 +87,6 @@ Hello from the pygame community. https://www.pygame.org/contribute.html
 
 - 펭귄의 점수이다.
 
-#### ▶key : 점프, 더블점프
-<p align="left">
-<img src="./img/arrow_key.png" width="45%" height="100%">
-<img src="./img/spacebar_key.png" width="45%" height="100">
-</p>
 
 - 스페이스바를 사용해 점프할 수 있다.
 
