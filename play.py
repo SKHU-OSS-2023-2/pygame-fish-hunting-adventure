@@ -1,6 +1,8 @@
 import pygame
 import random
 import sys
+from enum import Enum
+
 pygame.init()
 
 SCREEN_WIDTH = 1100
@@ -27,6 +29,21 @@ BGDARK = [pygame.image.load("./img/background/darker_ver1.png"),
 START_SOUND = pygame.mixer.Sound('sound/bgm.ogg')
 MISS_SOUND = pygame.mixer.Sound('sound/miss.ogg')
 COIN_SOUND = pygame.mixer.Sound('sound/candy.ogg')
+
+class Status(Enum):
+    INIT = 0
+    DIED = 1
+    STORY = 2
+    GAME = 3
+
+def wait(wait_key):
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN and event.key == wait_key:
+                return
 
 class Peng:
     X_POS = 80
@@ -227,7 +244,7 @@ def main():
                     pygame.mixer.music.stop()
                     pygame.time.delay(1000)
                     death_count += 1
-                    menu(death_count)
+                    return Status.DIED
 
         score()
 
@@ -236,46 +253,33 @@ def main():
     pygame.mixer.music.stop()
 
 
-def menu(death_count):
-    global points
-    run = True 
-    if death_count > 0:
-        # START_SOUND.stop()
-        MISS_SOUND.play()
-        SCREEN.blit(DEATH_SCREEN,(0,0)) 
-        pygame.display.update()
-        waiting_for_key = True
-        while waiting_for_key:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_r:
-                        # r 키를 누르면 처음 메인 화면으로 돌아감
-                        waiting_for_key = False
-                        main()
-    elif death_count == 0:
-        while run:
-            SCREEN.blit(START_BACKGROUND,(0,0))
-            pygame.display.update()
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
-                    sys.exit()
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_y:
-                        SCREEN.blit(STORY_SCREEN,(0,0))
-                        pygame.display.update()
-                        waiting_for_key = True
-                        while waiting_for_key:
-                                for event in pygame.event.get():
-                                    if event.type == pygame.QUIT:
-                                        pygame.quit()
-                                        sys.exit()
-                                    elif event.type == pygame.KEYDOWN:
-                                        if event.key == pygame.K_s:
-                                            main()
-            
+def menu():
+    SCREEN.blit(START_BACKGROUND,(0,0))
+    pygame.display.update()
+    wait(pygame.K_y)
+    return Status.STORY
 
-menu(death_count=0)
+def story():
+    SCREEN.blit(STORY_SCREEN,(0,0))
+    pygame.display.update()
+    wait(pygame.K_s)
+    return Status.GAME
+
+def died():
+    MISS_SOUND.play()
+    SCREEN.blit(DEATH_SCREEN,(0,0)) 
+    pygame.display.update()
+    wait(pygame.K_r)
+    return Status.GAME
+
+status = Status.INIT
+
+while True:
+    if status == Status.INIT:
+        status = menu()
+    elif status == Status.STORY:
+        status = story()
+    elif status == Status.DIED:
+        status = died()
+    elif status == Status.GAME:
+        status = main()
