@@ -45,8 +45,11 @@ terminal에서 위 명령어로 pygame을 설치하세요.
 
 ### 4. Run game
 ```sh
-python main.py
+python play.py
 ```
+**꼭 play.py를 실행해주세요**
+
+
 실행했을 때 다음과 같이 뜨면 게임이 실행됩니다.
 ```sh
 [Running] python -u "/Usr/username/dir/pygame-fish-hunting-adventure/main.py"
